@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexander Contreras · Perfil profesional — Ingeniería Multimedia</title>
+<meta name="description" content="Perfil profesional de Alexander Contreras, estudiante de Ingeniería Multimedia en la Universidad Simón Bolívar: marca personal, trayectoria y competencias en maquetación semántica, accesibilidad WCAG y rendimiento web.">
+<meta name="author" content="Alexander Contreras Triviño">
+<meta name="theme-color" content="#06070a">
+<link rel="preload" href="img/camaleon.webp" as="image">
+<link rel="icon" href="img/camaleon.webp" type="image/webp">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/tema.js"></script>
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+<div class="fondo-animado" aria-hidden="true">
+  <span class="mancha mancha-1"></span>
+  <span class="mancha mancha-2"></span>
+  <span class="mancha mancha-3"></span>
+</div>
+
+<header class="cinta franja">
+  <a class="marca" href="index.html">
+    <img class="marca-icono" src="img/camaleon.webp" alt="Logotipo: camaleón multicolor de Diseño Multimedia" width="48" height="30">
+    <span class="marca-texto">Alexander Contreras <span class="marca-subtitulo">Ingeniería Multimedia</span></span>
+  </a>
+  <div class="cinta-acciones">
+    <nav class="menu" aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Perfil</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="blog.html">Bitácora</a></li>
+        <li><a href="arcade.html">Arcade</a></li>
+        <li><a href="ar-experience.html">Realidad aumentada</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="boton-tema" data-alternar-tema aria-pressed="false" aria-label="Cambiar a modo claro"><span class="boton-tema-icono" aria-hidden="true">☀</span><span class="boton-tema-texto">Claro</span></button>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ============ PRESENTACIÓN ============ -->
+  <section class="presentacion franja">
+    <header class="presentacion-texto">
+      <p class="rol">Desarrollo front-end y accesibilidad web</p>
+      <h1 class="nombre">Alexander Contreras <em>Triviño</em></h1>
+      <p>Construyo interfaces que se leen igual de bien con un lector de pantalla que con los ojos. Trabajo desde Cúcuta con HTML semántico, CSS modular y una obsesión sana por el peso de cada archivo que sale al servidor.</p>
+      <p class="acciones">
+        <a class="boton" href="contacto.html">Hablemos de tu proyecto</a>
+        <a class="boton boton-linea" href="#marca">Ver mi forma de trabajar</a>
+      </p>
+    </header>
+    <div class="marca-canal">
+      <span class="resplandor-logo" aria-hidden="true"></span>
+      <img src="img/camaleon.webp" alt="" width="600" height="371" aria-hidden="true">
+    </div>
+  </section>
+
+  <!-- ============ MARCA PERSONAL ============ -->
+  <section id="marca" class="bloque franja marca-personal">
+    <h2>Marca personal</h2>
+    <p class="medida intro-bloque">No vendo plantillas: cada proyecto pasa por el mismo criterio, sea un perfil de una página o un catálogo completo. Marcado que un lector de pantalla puede recorrer, disposición que no se rompe en un teléfono de gama baja y un presupuesto de rendimiento que se respeta como cualquier otro requisito del cliente.</p>
+
+    <h3 class="subtitulo-seccion">Mis trabajos</h3>
+    <!--
+      Cómo poner tus propios videos:
+      1. Copia tus archivos de video dentro de la carpeta "video/" con
+         estos nombres exactos: semantica.mp4 (o semantica.webm),
+         rejilla.mp4, rendimiento.mp4 (silenciosos o con audio,
+         de pocos segundos, en formato vertical si es posible).
+      2. Abre este archivo y busca, dentro de cada tarjeta, el
+         comentario que dice "Cuando pongas tu clip...". Quita las
+         marcas de comentario que rodean su etiqueta source para
+         activarlo.
+      3. Mientras esas marcas sigan ahí, el navegador no pide el
+         archivo, así que no aparece ningún error en la consola
+         aunque el video todavía no exista.
+    -->
+    <div class="reels" role="region" aria-label="Vista rápida de trabajos recientes, desplázate en horizontal">
+      <ul class="reels-lista">
+
+       <li class="reel">
+          <figure>
+            <video class="reel-video" poster="img/portada-semantica.webp" muted loop playsinline preload="metadata" aria-label="Video: revisión del árbol semántico del documento">
+              <source src="video/semantica.webm" type="video/webm">
+            </video>
+            <button class="reel-pausa" type="button" aria-pressed="false" aria-label="Reproducir video de Semántica real" data-titulo="Semántica real">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path class="icono-play" d="M8 5v14l11-7z" fill="currentColor"></path><g class="icono-pausa"><rect x="6" y="5" width="4" height="14" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></g></svg>
+            </button>
+            <figcaption>
+              <p class="reel-titulo">Semántica real</p>
+              <p class="reel-texto">Encabezados y regiones que un lector de pantalla recorre sin esfuerzo.</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="reel">
+          <figure>
+            <video class="reel-video" poster="img/portada-rejilla.webp" muted loop playsinline preload="metadata" aria-label="Video: rejilla de doce columnas">
+              <source src="video/rejilla.mp4" type="video/mp4">
+            </video>
+            <button class="reel-pausa" type="button" aria-pressed="false" aria-label="Reproducir video de 12 columnas, cero scroll" data-titulo="12 columnas, cero scroll">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path class="icono-play" d="M8 5v14l11-7z" fill="currentColor"></path><g class="icono-pausa"><rect x="6" y="5" width="4" height="14" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></g></svg>
+            </button>
+            <figcaption>
+              <p class="reel-titulo">Detalles hasta en lo mas minimo</p>
+              <p class="reel-texto">Nos fijamos en lo premiun que tu producto se vea lo mas bien y delicioso </p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="reel">
+          <figure>
+            <video class="reel-video" poster="img/portada-rendimiento.webp" muted loop playsinline preload="metadata" aria-label="Video: auditoría de rendimiento en Lighthouse">
+              <source src="video/rendimiento.mp4" type="video/mp4">
+            </video>
+            <button class="reel-pausa" type="button" aria-pressed="false" aria-label="Reproducir video de la mejora de Lighthouse" data-titulo="la mejora de Lighthouse">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path class="icono-play" d="M8 5v14l11-7z" fill="currentColor"></path><g class="icono-pausa"><rect x="6" y="5" width="4" height="14" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></g></svg>
+            </button>
+            <figcaption>
+             <p class="reel-titulo">Movimiento de camaras</p>
+ <p class="reel-texto">Brindamos los mejores moviminetos de camara para tu producto estrella  </p>
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+    </div>
+
+    <h3 class="subtitulo-seccion">Cómo trabajo</h3>
+    <ul class="competencias">
+      <li class="competencia">
+        <p class="nivel">Estructura</p>
+        <h4>HTML5 semántico</h4>
+        <p>Marcado con las etiquetas estándar del W3C y un árbol de encabezados coherente, sin contenedores genéricos que estorben al lector de pantalla.</p>
+      </li>
+
+      <li class="competencia">
+        <p class="nivel">Presentación</p>
+        <h4>CSS modular y Modelo de Caja</h4>
+        <p>Hojas de estilo externas organizadas por capas, con variables de diseño y control estricto de <code>box-sizing</code>, márgenes y rellenos.</p>
+      </li>
+
+      <li class="competencia">
+        <p class="nivel">Disposición</p>
+        <h4>Flexbox y rejilla de Bootstrap</h4>
+        <p>Distribución de espacio en un eje con Flexbox y composición de doce columnas para que las vistas se adapten sin desbordarse.</p>
+      </li>
+
+      <li class="competencia">
+        <p class="nivel">Calidad</p>
+        <h4>Accesibilidad y rendimiento</h4>
+        <p>Contraste verificado contra WCAG 2.1 AA, foco visible en todo control interactivo y auditorías de Lighthouse por encima de 90 en móvil.</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ SERVICIOS · POST-PRODUCCIÓN ============ -->
+  <section id="servicios" class="bloque franja servicios" aria-labelledby="servicios-titulo">
+    <h2 id="servicios-titulo">Post-producción</h2>
+    <p class="medida intro-bloque">Recibo el material crudo y entrego el video listo para publicar: corte, color, sonido y motion graphics. Tres paquetes según cuánto necesite tu proyecto, con el mismo criterio técnico que aplico al resto del portafolio.</p>
+
+    <div class="interruptor-precio" role="group" aria-label="Unidad en la que se muestra el precio">
+      <span class="interruptor-etiqueta interruptor-etiqueta-activa" id="etiqueta-minuto">Por minuto entregado</span>
+      <button type="button" class="interruptor" id="boton-interruptor" role="switch" aria-checked="false" aria-label="Cambiar a precio por proyecto completo">
+        <span class="interruptor-perilla" aria-hidden="true"></span>
+      </button>
+      <span class="interruptor-etiqueta" id="etiqueta-proyecto">Por proyecto completo</span>
+    </div>
+
+    <ul class="planes">
+
+      <li class="plan" data-precio-minuto="45.000" data-precio-proyecto="280.000">
+        <header>
+          <h3>Corte esencial</h3>
+          <p class="plan-descripcion">Ensamblaje limpio y ritmo narrativo, listo para la primera revisión del cliente.</p>
+        </header>
+        <p class="plan-precio"><span class="cifra">$45.000</span><span class="plan-unidad">COP / minuto</span></p>
+        <ul class="plan-caracteristicas">
+          <li>Corte y ritmo narrativo</li>
+          <li>Corrección de color básica</li>
+          <li>Mezcla de audio a dos canales</li>
+          <li>Una ronda de ajustes</li>
+        </ul>
+        <a class="boton boton-linea" href="contacto.html">Cotizar corte esencial</a>
+      </li>
+
+      <li class="plan plan-destacado" data-precio-minuto="78.000" data-precio-proyecto="480.000">
+        <p class="etiqueta plan-insignia">Más solicitado</p>
+        <header>
+          <h3>Edición completa</h3>
+          <p class="plan-descripcion">Todo el corte esencial más gradación de color por escena y motion graphics de marca.</p>
+        </header>
+        <p class="plan-precio"><span class="cifra">$78.000</span><span class="plan-unidad">COP / minuto</span></p>
+        <ul class="plan-caracteristicas">
+          <li>Gradación de color por escena</li>
+          <li>Rótulos y motion graphics simples</li>
+          <li>Mezcla y masterización de audio</li>
+          <li>Subtítulos incrustados</li>
+          <li>Dos rondas de ajustes</li>
+        </ul>
+        <a class="boton" href="contacto.html">Cotizar edición completa</a>
+      </li>
+
+      <li class="plan" data-precio-minuto="120.000" data-precio-proyecto="760.000">
+        <header>
+          <h3>Post máxima</h3>
+          <p class="plan-descripcion">Entrega multiplataforma con control de calidad técnico antes de salir a producción.</p>
+        </header>
+        <p class="plan-precio"><span class="cifra">$120.000</span><span class="plan-unidad">COP / minuto</span></p>
+        <ul class="plan-caracteristicas">
+          <li>Todo lo de Edición completa</li>
+          <li>Exportación en varios formatos y relaciones de aspecto</li>
+          <li>Verificación técnica: niveles, loudness y zonas seguras</li>
+          <li>Entrega con nomenclatura y control de versiones</li>
+          <li>Ajustes ilimitados durante 15 días</li>
+        </ul>
+        <a class="boton boton-linea" href="contacto.html">Cotizar post máxima</a>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- ============ SOBRE MÍ ============ -->
+  <section class="bloque franja perfil">
+    <h2>Sobre mí</h2>
+    <p class="perfil-resumen">Estudiante de séptimo semestre de Ingeniería Multimedia. Me especializo en traducir diseños a marcado semántico limpio y en auditar lo que ya existe: reviso el árbol del documento, corrijo el orden de encabezados, asocio cada control de formulario con su etiqueta y recorto el peso de las imágenes hasta que la métrica móvil deja de doler. Cada proyecto que entrego pasa por el validador del W3C, por una revisión de contraste WCAG y por una auditoría de Lighthouse antes de considerarse terminado.</p>
+    <dl class="datos">
+      <dt>Ubicación</dt>
+      <dd>Cúcuta, Norte de Santander</dd>
+      <dt>Programa</dt>
+      <dd>Ingeniería Multimedia, Universidad Simón Bolívar</dd>
+      <dt>Herramientas</dt>
+      <dd>VS Code, Emmet, HTMLHint, Lighthouse, Figma</dd>
+      <dt>Disponibilidad</dt>
+      <dd>Proyectos por contrato y prácticas profesionales</dd>
+    </dl>
+
+    <h3 class="trayectoria-titulo">Trayectoria</h3>
+    <ol class="linea-tiempo">
+      <li>
+        <h4>Portafolio Web Profesional</h4>
+        <time datetime="2026-08">Agosto de 2026</time>
+        <p>Sitio construido sin dependencias de terceros salvo la rejilla de Bootstrap, con tipografía auto-hospedada e imágenes en WebP por debajo de 10&nbsp;kB.</p>
+      </li>
+      <li>
+        <h4>Auditoría de accesibilidad, Fundación Casa del Río</h4>
+        <time datetime="2026-03">Marzo de 2026</time>
+        <p>Diagnóstico y corrección del formulario de donaciones: asociación de etiquetas, mensajes de error descriptivos y navegación completa por teclado.</p>
+      </li>
+      <li>
+        <h4>Rediseño de catálogo, Textiles del Norte</h4>
+        <time datetime="2025-09">Septiembre de 2025</time>
+        <p>Migración de un catálogo maquetado con tablas a una disposición flexible. El tiempo de carga en red móvil pasó de 6,4 a 1,9 segundos.</p>
+      </li>
+      <li>
+        <h4>Ingreso a Ingeniería Multimedia</h4>
+        <time datetime="2023-01">Enero de 2023</time>
+        <p>Universidad Simón Bolívar, sede Cúcuta. Énfasis en producción de software multimedia y tecnologías de despliegue web.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ LLAMADA A CONTACTO ============ -->
+  <section class="llamada franja">
+    <h2>¿Tienes una interfaz que no responde bien en móvil?</h2>
+    <p class="medida">Cuéntame qué está fallando. Reviso el marcado, el contraste y las métricas de carga, y te devuelvo un diagnóstico con las correcciones priorizadas.</p>
+    <p class="acciones"><a class="boton" href="contacto.html">Escribir un mensaje</a></p>
+  </section>
+
+</main>
+
+<footer class="pie franja">
+  <section>
+    <h2>Contacto directo</h2>
+    <address>
+      Cúcuta, Norte de Santander, Colombia<br>
+      <a href="mailto:xandercontre@gmail.com">xandercontre@gmail.com</a><br>
+      <a href="tel:+573238387257">+57 323 838 7257</a>
+    </address>
+  </section>
+  <section>
+    <h2>Recorrido del sitio</h2>
+    <ul>
+      <li><a href="index.html">Perfil profesional</a></li>
+      <li><a href="blog.html">Bitácora técnica</a></li>
+      <li><a href="arcade.html">Arcade 2D/3D</a></li>
+      <li><a href="ar-experience.html">Experiencia de realidad aumentada</a></li>
+      <li><a href="contacto.html">Formulario de contacto</a></li>
+    </ul>
+  </section>
+  <p class="pie-nota">Portafolio académico presentado para la asignatura Ingeniería WEB, Universidad Simón Bolívar. Código validado ante el W3C y probado con lector de pantalla.</p>
+</footer>
+
+<script src="js/marcadores.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arcade · Alexander Contreras — Ingeniería Multimedia</title>
+<meta name="description" content="Cuatro juegos para navegador hechos con HTML, CSS y JavaScript: Pong de Ultratumba, un Pong de Halloween en canvas 2D; Granja Maldita, un juego de zombis por rondas en 3D; Iron Skies, un juego de combate aéreo de la Segunda Guerra Mundial en 3D, ambos con Three.js, y Football Evolution 13, un simulador de fútbol 3D en WebGL.">
+<meta name="author" content="Alexander Contreras Triviño">
+<meta name="theme-color" content="#06070a">
+<link rel="preload" href="img/camaleon.webp" as="image">
+<link rel="icon" href="img/camaleon.webp" type="image/webp">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/tema.js"></script>
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+<div class="fondo-animado" aria-hidden="true">
+  <span class="mancha mancha-1"></span>
+  <span class="mancha mancha-2"></span>
+  <span class="mancha mancha-3"></span>
+</div>
+
+<header class="cinta franja">
+  <a class="marca" href="index.html">
+    <img class="marca-icono" src="img/camaleon.webp" alt="Logotipo: camaleón multicolor de Diseño Multimedia" width="48" height="30">
+    <span class="marca-texto">Alexander Contreras <span class="marca-subtitulo">Ingeniería Multimedia</span></span>
+  </a>
+  <div class="cinta-acciones">
+    <nav class="menu" aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Perfil</a></li>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="blog.html">Bitácora</a></li>
+        <li><a href="arcade.html" aria-current="page">Arcade</a></li>
+        <li><a href="ar-experience.html">Realidad aumentada</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="boton-tema" data-alternar-tema aria-pressed="false" aria-label="Cambiar a modo claro"><span class="boton-tema-icono" aria-hidden="true">☀</span><span class="boton-tema-texto">Claro</span></button>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <header class="cabecera-vista franja">
+    <h1>Arcade 2D/3D</h1>
+    <p class="medida">Cinco juegos que programé para el navegador con Canvas 2D, Three.js y WebGL. Elige uno, haz clic dentro del marco y juega aquí mismo, o ábrelo en pantalla completa. Tus partidas quedan guardadas en este dispositivo en el historial de marcadores.</p>
+    <p class="acciones"><a class="boton" href="#historial">Ver historial de marcadores</a> <a class="boton boton-linea" href="ar-experience.html">Probar la experiencia de realidad aumentada</a></p>
+  </header>
+
+  <section class="sala-juegos franja" aria-labelledby="titulo-sala">
+    <h2 id="titulo-sala" class="solo-lectores">Selector de juegos</h2>
+
+    <div class="selector-juegos" role="tablist" aria-label="Elige un juego">
+      <button class="pestana-juego" role="tab" id="pestana-pong" aria-controls="panel-pong" aria-selected="true" data-juego="pong">
+        <span class="pestana-titulo">Pong de Ultratumba</span>
+        <span class="pestana-meta">Canvas 2D · vs IA o 2 jugadores</span>
+      </button>
+      <button class="pestana-juego" role="tab" id="pestana-atari" aria-controls="panel-atari" aria-selected="false" tabindex="-1" data-juego="atari">
+        <span class="pestana-titulo">Fútbol 2D Atari</span>
+        <span class="pestana-meta">Canvas 2D · vs IA o 2 jugadores</span>
+      </button>
+      <button class="pestana-juego" role="tab" id="pestana-zombis" aria-controls="panel-zombis" aria-selected="false" tabindex="-1" data-juego="zombis">
+        <span class="pestana-titulo">Granja Maldita</span>
+        <span class="pestana-meta">3D con Three.js · zombis por rondas</span>
+      </button>
+      <button class="pestana-juego" role="tab" id="pestana-aviones" aria-controls="panel-aviones" aria-selected="false" tabindex="-1" data-juego="aviones">
+        <span class="pestana-titulo">Iron Skies</span>
+        <span class="pestana-meta">3D con Three.js · combate aéreo de la II Guerra Mundial</span>
+      </button>
+      <button class="pestana-juego" role="tab" id="pestana-futbol" aria-controls="panel-futbol" aria-selected="false" tabindex="-1" data-juego="futbol">
+        <span class="pestana-titulo">Football Evolution 13</span>
+        <span class="pestana-meta">3D con WebGL · simulador de fútbol estilo PES 2013</span>
+      </button>
+    </div>
+
+    <div class="sala-rejilla">
+
+      <article class="panel-juego" role="tabpanel" id="panel-pong" aria-labelledby="pestana-pong">
+        <div class="marco-juego marco-pong">
+          <iframe title="Pong de Ultratumba" data-src="juegos/pong-ultratumba.html" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+        <p class="acciones-juego">
+          <button class="boton" type="button" data-pantalla-completa="panel-pong">Pantalla completa</button>
+          <a class="boton boton-linea" href="juegos/pong-ultratumba.html" target="_blank" rel="noopener">Abrir en otra pestaña</a>
+        </p>
+      </article>
+
+      <article class="panel-juego" role="tabpanel" id="panel-atari" aria-labelledby="pestana-atari" hidden>
+        <div class="marco-juego marco-pong">
+          <iframe title="Fútbol 2D Atari" data-src="juegos/futbol-atari.html" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+        <p class="acciones-juego">
+          <button class="boton" type="button" data-pantalla-completa="panel-atari">Pantalla completa</button>
+          <a class="boton boton-linea" href="juegos/futbol-atari.html" target="_blank" rel="noopener">Abrir en otra pestaña</a>
+        </p>
+      </article>
+
+      <article class="panel-juego" role="tabpanel" id="panel-zombis" aria-labelledby="pestana-zombis" hidden>
+        <div class="marco-juego marco-zombis">
+          <iframe title="Granja Maldita" data-src="juegos/granja-maldita.html" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+        <p class="acciones-juego">
+          <button class="boton" type="button" data-pantalla-completa="panel-zombis">Pantalla completa</button>
+          <a class="boton boton-linea" href="juegos/granja-maldita.html" target="_blank" rel="noopener">Abrir en otra pestaña</a>
+        </p>
+      </article>
+
+      <article class="panel-juego" role="tabpanel" id="panel-aviones" aria-labelledby="pestana-aviones" hidden>
+        <div class="marco-juego marco-aviones">
+          <iframe title="Iron Skies: World War II" data-src="juegos/iron-skies.html?v=3" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+        <p class="acciones-juego">
+          <button class="boton" type="button" data-pantalla-completa="panel-aviones">Pantalla completa</button>
+          <a class="boton boton-linea" href="juegos/iron-skies.html" target="_blank" rel="noopener">Abrir en otra pestaña</a>
+        </p>
+      </article>
+
+      <article class="panel-juego" role="tabpanel" id="panel-futbol" aria-labelledby="pestana-futbol" hidden>
+        <div class="marco-juego marco-futbol">
+          <iframe title="Football Evolution 13" data-src="juegos/football-evolution-13.html" allow="fullscreen; gamepad" loading="lazy"></iframe>
+        </div>
+        <p class="acciones-juego">
+          <button class="boton" type="button" data-pantalla-completa="panel-futbol">Pantalla completa</button>
+          <a class="boton boton-linea" href="juegos/football-evolution-13.html" target="_blank" rel="noopener">Abrir en otra pestaña</a>
+        </p>
+      </article>
+
+      <aside class="panel ficha-juego" aria-live="polite">
+        <div data-ficha="pong">
+          <h2>Pong de Ultratumba</h2>
+          <p>Defiende el cementerio con un ataúd y devuelve la calabaza. Juega contra El Espectro (tres dificultades) o contra un amigo en el mismo teclado. Gana quien llegue primero a 7. Cada golpe acelera la calabaza.</p>
+          <h3>Controles</h3>
+          <dl class="lista-controles">
+            <div><dt>Mouse o dedo</dt><dd>mover el ataúd</dd></div>
+            <div><dt>W / S</dt><dd>Jugador 1</dd></div>
+            <div><dt>↑ / ↓</dt><dd>Jugador 2 (o Jugador 1 contra la IA)</dd></div>
+            <div><dt>Espacio</dt><dd>pausa</dd></div>
+          </dl>
+          <h3>Hecho con</h3>
+          <ul class="nube">
+            <li>Canvas 2D</li>
+            <li>Web Audio</li>
+            <li>JavaScript</li>
+          </ul>
+        </div>
+        <div data-ficha="atari" hidden>
+          <h2>Fútbol 2D Atari</h2>
+          <p>Homenaje al fútbol del Atari 2600: bloques de colores, cancha a franjas y sonido de onda cuadrada. Cada equipo tiene un delantero y un arquero automático. Partido de 2 minutos o hasta 5 goles, contra la IA (tres niveles) o de 2 jugadores locales.</p>
+          <h3>Controles</h3>
+          <dl class="lista-controles">
+            <div><dt>W A S D · Espacio</dt><dd>Jugador 1 (rojo): mover y patear</dd></div>
+            <div><dt>Flechas · Enter</dt><dd>Jugador 2 (azul): mover y patear</dd></div>
+            <div><dt>Dedo</dt><dd>arrastrar para mover, soltar para patear</dd></div>
+            <div><dt>P</dt><dd>pausa</dd></div>
+          </dl>
+          <h3>Hecho con</h3>
+          <ul class="nube">
+            <li>Canvas 2D</li>
+            <li>Web Audio</li>
+            <li>localStorage</li>
+          </ul>
+        </div>
+        <div data-ficha="zombis" hidden>
+          <h2>Granja Maldita</h2>
+          <p>Sobrevive a rondas infinitas de zombis. Gana puntos, repara las ventanas, abre el mapa, enciende la energía, compra ventajas y mejora tus armas.</p>
+          <h3>Controles</h3>
+          <dl class="lista-controles">
+            <div><dt>W A S D</dt><dd>moverse</dd></div>
+            <div><dt>Mouse</dt><dd>apuntar y disparar</dd></div>
+            <div><dt>Clic derecho</dt><dd>mirilla</dd></div>
+            <div><dt>F</dt><dd>comprar, usar y reparar</dd></div>
+            <div><dt>R · V · G</dt><dd>recargar, cuchillo, granada</dd></div>
+            <div><dt>Shift · C</dt><dd>correr, agacharse</dd></div>
+            <div><dt>Esc</dt><dd>pausa</dd></div>
+          </dl>
+          <p class="nota-juego">Se juega en computadora con teclado y mouse. En pantalla completa se apunta mejor.</p>
+          <h3>Hecho con</h3>
+          <ul class="nube">
+            <li>Three.js</li>
+            <li>WebGL</li>
+            <li>Web Audio</li>
+            <li>Pointer Lock</li>
+          </ul>
+        </div>
+        <div data-ficha="aviones" hidden>
+          <h2>Iron Skies</h2>
+          <p>Pilota un caza o un bombardero sobre el Canal de la Mancha. Campaña de cinco misiones (patrulla, escolta, interceptación, ataque a una base y defensa de la formación) y vuelo libre. Seis aviones: Spitfire, P-51 Mustang, Bf 109, Fw 190, B-17 y Stuka.</p>
+          <h3>Controles</h3>
+          <dl class="lista-controles">
+            <div><dt>W / S</dt><dd>potencia del motor</dd></div>
+            <div><dt>↑ / ↓</dt><dd>picar y encabritar</dd></div>
+            <div><dt>← / →</dt><dd>alabeo</dd></div>
+            <div><dt>A / D</dt><dd>timón</dd></div>
+            <div><dt>Espacio · B</dt><dd>disparar, soltar bomba</dd></div>
+            <div><dt>Shift · X</dt><dd>potencia de emergencia, freno</dd></div>
+            <div><dt>C · V · T</dt><dd>cámara, vista de objetivo, cambiar objetivo</dd></div>
+            <div><dt>Esc</dt><dd>pausa</dd></div>
+          </dl>
+          <p class="nota-juego">Se juega en computadora con teclado o con mando. Los controles se pueden cambiar en Configuración.</p>
+          <h3>Hecho con</h3>
+          <ul class="nube">
+            <li>Three.js</li>
+            <li>WebGL</li>
+            <li>Web Audio</li>
+            <li>Gamepad API</li>
+          </ul>
+        </div>
+        <div data-ficha="futbol" hidden>
+          <h2>Football Evolution 13</h2>
+          <p>Simulador de fútbol 3D inspirado en PES 2013: partidos de once contra once frente a la máquina, con pases, centros, regates, tiros con potencia, tarjetas, penaltis, repeticiones y estrategia en tiempo real. Equipos, estadios y sonidos son originales y los genera el propio juego.</p>
+          <h3>Controles</h3>
+          <dl class="lista-controles">
+            <div><dt>W A S D</dt><dd>moverse</dd></div>
+            <div><dt>Shift</dt><dd>esprintar</dd></div>
+            <div><dt>J · K</dt><dd>pase corto, pase largo o centro</dd></div>
+            <div><dt>L · U</dt><dd>disparo, pase al hueco</dd></div>
+            <div><dt>Q</dt><dd>cambiar de jugador</dd></div>
+            <div><dt>I + dirección</dt><dd>regates</dd></div>
+            <div><dt>Z / C</dt><dd>estrategia defensiva u ofensiva</dd></div>
+            <div><dt>Esc</dt><dd>pausa</dd></div>
+          </dl>
+          <p class="nota-juego">En defensa, J presiona, K hace una entrada deslizante y Espacio una entrada de pie. Se juega con teclado o con mando, y los controles se pueden cambiar en Ajustes y controles.</p>
+          <h3>Hecho con</h3>
+          <ul class="nube">
+            <li>WebGL</li>
+            <li>TypeScript</li>
+            <li>Web Audio</li>
+            <li>Gamepad API</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <section id="historial" class="bloque franja historial" aria-labelledby="titulo-historial">
+    <h2 id="titulo-historial">Historial de marcadores</h2>
+    <p class="medida">Cada partida terminada se guarda en tu navegador con la API <code>localStorage</code>. No se envía a ningún servidor: si cambias de dispositivo o borras los datos del sitio, el historial empieza de cero.</p>
+
+    <ul class="historial-metricas" id="historial-metricas">
+      <li><b data-metrica="partidas">0</b><span>partidas jugadas</span></li>
+      <li><b data-metrica="visitas">0</b><span>visitas al sitio</span></li>
+      <li><b data-metrica="aperturas">0</b><span>juegos abiertos</span></li>
+      <li><b data-metrica="ar">0</b><span>sesiones de realidad aumentada</span></li>
+    </ul>
+
+    <h3 class="subtitulo-seccion">Récords por juego</h3>
+    <ul class="historial-records" id="historial-records"></ul>
+
+    <h3 class="subtitulo-seccion">Últimas partidas</h3>
+    <div class="tabla-desplazable" tabindex="0" role="region" aria-labelledby="titulo-tabla-partidas">
+      <table class="tabla-historial">
+        <caption id="titulo-tabla-partidas">Últimas 10 partidas, de la más reciente a la más antigua</caption>
+        <thead>
+          <tr><th scope="col">Fecha</th><th scope="col">Juego</th><th scope="col">Modo</th><th scope="col">Resultado</th><th scope="col">Marcador</th><th scope="col">Puntos</th></tr>
+        </thead>
+        <tbody id="historial-filas">
+          <tr><td colspan="6">Todavía no hay partidas. ¡Juega una y vuelve aquí!</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="acciones"><button class="boton boton-linea" type="button" id="historial-borrar">Borrar historial</button></p>
+  </section>
+
+</main>
+
+<footer class="pie franja">
+  <section>
+    <h2>Contacto directo</h2>
+    <address>
+      Cúcuta, Norte de Santander, Colombia<br>
+      <a href="mailto:xandercontre@gmail.com">xandercontre@gmail.com</a><br>
+      <a href="tel:+573238387257">+57 323 838 7257</a>
+    </address>
+  </section>
+  <section>
+    <h2>Recorrido del sitio</h2>
+    <ul>
+      <li><a href="index.html">Perfil profesional</a></li>
+      <li><a href="blog.html">Bitácora técnica</a></li>
+      <li><a href="arcade.html">Arcade 2D/3D</a></li>
+      <li><a href="ar-experience.html">Experiencia de realidad aumentada</a></li>
+      <li><a href="contacto.html">Formulario de contacto</a></li>
+    </ul>
+  </section>
+  <p class="pie-nota">Portafolio académico presentado para la asignatura Ingeniería WEB, Universidad Simón Bolívar. Código validado ante el W3C y probado con lector de pantalla.</p>
+</footer>
+
+<script src="js/marcadores.js"></script>
+<script src="js/main.js"></script>
+<script src="js/juegos.js"></script>
+<script src="js/historial.js"></script>
+</body>
+</html>
