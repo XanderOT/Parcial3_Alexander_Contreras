@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Fútbol 2D estilo Atari 2600: partido contra la IA o de 2 jugadores en el mismo teclado.">
+<meta name="author" content="Alexander Contreras Triviño">
+<title>Fútbol 2D Atari</title>
+<style>
+/* Estética Atari 2600: paleta reducida, bloques gruesos, tipografía
+   monoespaciada y marcador con dígitos de 7 segmentos. */
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --fondo:#0b0d12;
+  --cesped:#2d7d32;
+  --cesped-2:#276f2c;
+  --linea:#e8f0d8;
+  --rojo:#e04a3a;
+  --azul:#3f7fe0;
+  --amarillo:#f2d24b;
+  --texto:#f3f0e6;
+  --tenue:#a9b0a2;
+  --f-pixel:"Courier New", ui-monospace, "Consolas", monospace;
+}
+html,body{margin:0;height:100%}
+body{
+  background:var(--fondo);color:var(--texto);font-family:var(--f-pixel);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:14px max(14px, env(safe-area-inset-left, 0px));overflow-x:hidden;
+}
+[hidden]{display:none!important}
+header{width:100%;max-width:960px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(1.3rem,4vw,2rem);letter-spacing:.12em;text-transform:uppercase;color:var(--amarillo);
+  text-shadow:3px 3px 0 #7a5a00}
+.marcador{display:flex;align-items:center;gap:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.equipo{display:flex;flex-direction:column;align-items:center;min-width:5.5rem}
+.equipo span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tenue)}
+.equipo b{font-size:2.4rem;line-height:1}
+.equipo.rojo b{color:var(--rojo)} .equipo.azul b{color:var(--azul)}
+.reloj{font-size:1.3rem;padding:4px 10px;border:3px solid var(--linea);background:#000;color:var(--amarillo)}
+.escenario{position:relative;width:100%;max-width:960px;aspect-ratio:16/10;max-height:max(220px, calc(100vh - 180px));
+  border:4px solid var(--linea);image-rendering:pixelated;touch-action:none;background:var(--cesped)}
+canvas{display:block;width:100%;height:100%}
+.capa{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  text-align:center;background:rgba(5,8,5,.82);padding:14px}
+.capa h2{margin:0;font-size:clamp(1.3rem,4.5vw,2.4rem);letter-spacing:.1em;text-transform:uppercase;color:var(--amarillo)}
+.capa p{margin:0;max-width:52ch;line-height:1.5}
+.grupo{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+button{font:700 .95rem var(--f-pixel);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  border:3px solid var(--linea);background:#000;color:var(--texto);padding:9px 16px;min-height:44px}
+button[aria-pressed="true"]{background:var(--amarillo);color:#000;border-color:var(--amarillo)}
+button.principal{background:var(--rojo);border-color:var(--rojo);color:#fff;font-size:1.05rem;padding:11px 26px}
+button:focus-visible{outline:3px solid var(--azul);outline-offset:3px}
+footer{width:100%;max-width:960px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.85rem;color:var(--tenue)}
+kbd{font-family:var(--f-pixel);border:2px solid var(--tenue);padding:0 5px;color:var(--texto);background:#000}
+@media (max-width:560px){
+  .capa{gap:6px;padding:8px}
+  .capa p{font-size:.78rem}
+  button{padding:6px 10px;font-size:.78rem;min-height:36px}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Fútbol 2D Atari</h1>
+  <div class="marcador" aria-live="polite">
+    <div class="equipo rojo"><span id="nombreRojo">Tú</span><b id="golesRojo">0</b></div>
+    <div class="reloj" id="reloj" aria-label="Tiempo restante">2:00</div>
+    <div class="equipo azul"><span id="nombreAzul">CPU</span><b id="golesAzul">0</b></div>
+  </div>
+</header>
+
+<div class="escenario" id="escenario">
+  <canvas id="lienzo" width="800" height="500" aria-label="Cancha de fútbol"></canvas>
+  <div class="capa" id="capa">
+    <h2 id="capaTitulo">Saque inicial</h2>
+    <p id="capaTexto">Partido de 2 minutos o hasta 5 goles. Cada equipo tiene un delantero y un arquero. Acércate al balón y patea hacia el arco rival.</p>
+    <div class="grupo" id="grupoModo" role="group" aria-label="Modo de juego">
+      <button type="button" data-modo="1" aria-pressed="true">vs IA</button>
+      <button type="button" data-modo="2" aria-pressed="false">2 jugadores</button>
+    </div>
+    <div class="grupo" id="grupoNivel" role="group" aria-label="Dificultad de la IA">
+      <button type="button" data-nivel="0" aria-pressed="false">Fácil</button>
+      <button type="button" data-nivel="1" aria-pressed="true">Normal</button>
+      <button type="button" data-nivel="2" aria-pressed="false">Difícil</button>
+    </div>
+    <button type="button" class="principal" id="jugar">Jugar</button>
+  </div>
+</div>
+
+<footer>
+  <span id="ayuda">Rojo: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> mover · <kbd>Espacio</kbd> patear · Táctil: arrastra y suelta para patear · Pausa: <kbd>P</kbd></span>
+  <button type="button" id="sonido" aria-pressed="false">Sonido: no</button>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Constantes del mundo (coordenadas lógicas 800x500) ---------- */
+  var W = 800, H = 500, MARGEN = 30;
+  var ARCO_ALTO = 120, ARCO_Y = (H - ARCO_ALTO) / 2;
+  var DURACION = 120, GOLES_MAX = 5;
+  var TAM = 22;                 // jugadores: bloques de 22 px
+  var NIVELES = [
+    { vel: 2.2, reaccion: 0.05, punteria: 60 },
+    { vel: 3.0, reaccion: 0.09, punteria: 30 },
+    { vel: 3.7, reaccion: 0.14, punteria: 10 }
+  ];
+
+  var lienzo = document.getElementById("lienzo");
+  var ctx = lienzo.getContext("2d");
+  var capa = document.getElementById("capa");
+  var $ = function (id) { return document.getElementById(id); };
+
+  var modo = 1, nivel = 1, estado = "menu";
+  var tiempo = DURACION, golesR = 0, golesA = 0, pausaGol = 0;
+  var patadas = 0, posesionR = 0, posesionA = 0;
+
+  function crearJugador(x, y, color, esArquero) {
+    return { x: x, y: y, vx: 0, vy: 0, color: color, arquero: esArquero, cargaPatada: 0, enfriar: 0 };
+  }
+  var rojo = crearJugador(250, H / 2, "#e04a3a", false);
+  var azul = crearJugador(550, H / 2, "#3f7fe0", false);
+  var arqR = crearJugador(MARGEN + 14, H / 2, "#e04a3a", true);
+  var arqA = crearJugador(W - MARGEN - 14 - TAM, H / 2, "#3f7fe0", true);
+  var balon = { x: W / 2, y: H / 2, vx: 0, vy: 0, r: 7 };
+
+  /* ---------- Entrada ---------- */
+  var teclas = {};
+  addEventListener("keydown", function (e) {
+    var k = e.key.toLowerCase();
+    teclas[k] = true;
+    if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright"].indexOf(k) >= 0 && estado !== "menu") e.preventDefault();
+    if (k === "p" && (estado === "juego" || estado === "pausa")) alternarPausa();
+  });
+  addEventListener("keyup", function (e) { teclas[e.key.toLowerCase()] = false; });
+  addEventListener("blur", function () { teclas = {}; });
+
+  /* Táctil / mouse (solo controla al rojo): el jugador sigue al dedo y
+     patea al soltar. */
+  var puntero = null;
+  function aLogico(e) {
+    var r = lienzo.getBoundingClientRect();
+    return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+  }
+  lienzo.addEventListener("pointerdown", function (e) { puntero = aLogico(e); });
+  lienzo.addEventListener("pointermove", function (e) { if (puntero) puntero = aLogico(e); });
+  addEventListener("pointerup", function () { if (puntero) { rojo.cargaPatada = 1; puntero = null; } });
+
+  /* ---------- Sonido (Web Audio, onda cuadrada tipo consola) ---------- */
+  var audio = null, sonidoOn = false;
+  $("sonido").addEventListener("click", function () {
+    sonidoOn = !sonidoOn;
+    this.setAttribute("aria-pressed", sonidoOn);
+    this.textContent = "Sonido: " + (sonidoOn ? "sí" : "no");
+    if (sonidoOn && !audio) { try { audio = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (audio && audio.state === "suspended") audio.resume();
+  });
+  function bip(f, d, v) {
+    if (!sonidoOn || !audio) return;
+    var t = audio.currentTime, o = audio.createOscillator(), g = audio.createGain();
+    o.type = "square"; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(v || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g).connect(audio.destination); o.start(t); o.stop(t + d);
+  }
+
+  /* ---------- Menú ---------- */
+  function marcar(grupo, boton) {
+    grupo.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b === boton); });
+  }
+  $("grupoModo").querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      modo = +b.dataset.modo; marcar($("grupoModo"), b);
+      $("grupoNivel").hidden = modo === 2;
+      $("nombreRojo").textContent = modo === 2 ? "Jugador 1" : "Tú";
+      $("nombreAzul").textContent = modo === 2 ? "Jugador 2" : "CPU";
+      $("ayuda").innerHTML = modo === 2
+        ? "J1 rojo: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> + <kbd>Espacio</kbd> · J2 azul: flechas + <kbd>Enter</kbd> · Pausa: <kbd>P</kbd>"
+        : "Rojo: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> mover · <kbd>Espacio</kbd> patear · Táctil: arrastra y suelta para patear · Pausa: <kbd>P</kbd>";
+    });
+  });
+  $("grupoNivel").querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () { nivel = +b.dataset.nivel; marcar($("grupoNivel"), b); });
+  });
+  $("jugar").addEventListener("click", function () {
+    if (estado === "pausa") { alternarPausa(); return; }
+    iniciar();
+  });
+
+  function iniciar() {
+    golesR = golesA = 0; tiempo = DURACION; patadas = 0; posesionR = posesionA = 0;
+    $("golesRojo").textContent = "0"; $("golesAzul").textContent = "0";
+    saque(Math.random() < 0.5 ? 1 : -1);
+    capa.hidden = true; estado = "juego";
+    lienzo.focus && lienzo.focus();
+  }
+
+  function saque(direccion) {
+    rojo.x = 250; rojo.y = H / 2 - TAM / 2; azul.x = 550 - TAM; azul.y = H / 2 - TAM / 2;
+    arqR.y = arqA.y = H / 2 - TAM / 2;
+    [rojo, azul, arqR, arqA].forEach(function (j) { j.vx = j.vy = 0; j.cargaPatada = 0; j.enfriar = 0; });
+    balon.x = W / 2; balon.y = H / 2; balon.vx = direccion * 0.6; balon.vy = 0;
+    pausaGol = 50;
+  }
+
+  function alternarPausa() {
+    if (estado === "juego") {
+      estado = "pausa"; capa.hidden = false;
+      $("capaTitulo").textContent = "Pausa";
+      $("capaTexto").textContent = "Pulsa P o el botón para seguir jugando.";
+      $("grupoModo").hidden = $("grupoNivel").hidden = true;
+      $("jugar").textContent = "Seguir";
+    } else if (estado === "pausa") {
+      estado = "juego"; capa.hidden = true;
+    }
+  }
+
+  function terminar() {
+    estado = "fin"; capa.hidden = false;
+    var titulo;
+    if (golesR === golesA) titulo = "¡Empate!";
+    else if (modo === 2) titulo = golesR > golesA ? "¡Gana el Jugador 1!" : "¡Gana el Jugador 2!";
+    else titulo = golesR > golesA ? "¡Ganaste!" : "Ganó la CPU";
+    var total = posesionR + posesionA || 1;
+    $("capaTitulo").textContent = titulo;
+    $("capaTexto").textContent = "Marcador final " + golesR + " - " + golesA +
+      ". Posesión del rojo: " + Math.round(posesionR / total * 100) + " %. Patadas: " + patadas + ".";
+    $("grupoModo").hidden = false; $("grupoNivel").hidden = modo === 2;
+    $("jugar").textContent = "Jugar otra vez";
+    [523, 659, 784].forEach(function (f, i) { setTimeout(function () { bip(f, 0.2, 0.06); }, i * 150); });
+
+    if (window.Marcadores) {
+      var resultado = golesR === golesA ? "Empate"
+        : modo === 2 ? (golesR > golesA ? "Gana J1" : "Gana J2")
+        : (golesR > golesA ? "Victoria" : "Derrota");
+      window.Marcadores.registrar("futbol2d", {
+        modo: modo === 2 ? "2 jugadores" : "vs IA (" + ["Fácil", "Normal", "Difícil"][nivel] + ")",
+        resultado: resultado, marcador: golesR + " - " + golesA, puntos: golesR,
+        extra: { patadas: patadas, posesion: Math.round(posesionR / total * 100) }
+      });
+    }
+  }
+
+  /* ---------- Lógica (paso fijo de 1/60 s) ---------- */
+  function limitar(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+  function moverHumano(j, arriba, abajo, izq, der, patear) {
+    var ax = (teclas[der] ? 1 : 0) - (teclas[izq] ? 1 : 0);
+    var ay = (teclas[abajo] ? 1 : 0) - (teclas[arriba] ? 1 : 0);
+    if (j === rojo && puntero) {
+      var dx = puntero.x - (j.x + TAM / 2), dy = puntero.y - (j.y + TAM / 2), d = Math.hypot(dx, dy);
+      if (d > 6) { ax = dx / d; ay = dy / d; }
+    }
+    var n = Math.hypot(ax, ay) || 1;
+    j.vx = ax / n * 3.4; j.vy = ay / n * 3.4;
+    if (teclas[patear]) j.cargaPatada = 1;
+  }
+
+  function moverIA(j) {
+    var cfg = NIVELES[nivel];
+    var cx = j.x + TAM / 2, cy = j.y + TAM / 2;
+    // Busca colocarse a la derecha del balón para patearlo hacia el arco rojo (x = 0).
+    var objetivoX = balon.x + 14, objetivoY = balon.y;
+    if (cx < balon.x - 6) {
+      // Está del lado equivocado: rodea el balón por arriba o por abajo.
+      objetivoX = balon.x + 34;
+      objetivoY = balon.y + (cy < balon.y ? -40 : 40);
+    }
+    objetivoY += Math.sin(performance.now() / 500) * cfg.punteria * 0.15;
+    var dx = objetivoX - cx, dy = objetivoY - cy;
+    var d = Math.hypot(dx, dy) || 1;
+    j.vx += (dx / d * cfg.vel - j.vx) * cfg.reaccion * 3;
+    j.vy += (dy / d * cfg.vel - j.vy) * cfg.reaccion * 3;
+    if (Math.hypot(balon.x - cx, balon.y - cy) < TAM && cx > balon.x - 4) j.cargaPatada = 1;
+  }
+
+  function moverArquero(a, lado) {
+    var objetivo = limitar(balon.y - TAM / 2, ARCO_Y - 6, ARCO_Y + ARCO_ALTO - TAM + 6);
+    var vel = modo === 1 && lado === "azul" ? 1.6 + nivel * 0.6 : 2.4;
+    a.y += limitar(objetivo - a.y, -vel, vel);
+    if (Math.hypot(balon.x - (a.x + TAM / 2), balon.y - (a.y + TAM / 2)) < TAM) a.cargaPatada = 1;
+  }
+
+  function aplicar(j) {
+    j.x = limitar(j.x + j.vx, MARGEN, W - MARGEN - TAM);
+    j.y = limitar(j.y + j.vy, MARGEN, H - MARGEN - TAM);
+  }
+
+  function contacto(j, direccion) {
+    var cx = j.x + TAM / 2, cy = j.y + TAM / 2;
+    var dx = balon.x - cx, dy = balon.y - cy, d = Math.hypot(dx, dy);
+    if (j.enfriar > 0) j.enfriar--;
+    if (d < TAM / 2 + balon.r + 2) {
+      if (j === rojo || j === arqR) posesionR++; else posesionA++;
+      if (j.cargaPatada && j.enfriar === 0) {
+        // Patada: apunta al palo más lejano del arquero rival; el movimiento
+        // vertical del jugador también desvía el tiro. La IA tiene error
+        // según la dificultad. Los arqueros despejan al centro.
+        var rival = direccion > 0 ? arqA : arqR;
+        var metaY = (rival.y + TAM / 2) < H / 2 ? ARCO_Y + ARCO_ALTO - 14 : ARCO_Y + 14;
+        if (j.arquero) metaY = H / 2 + dy * 4;
+        metaY += j.vy * 10;
+        if (modo === 1 && j === azul) metaY += (Math.random() - 0.5) * NIVELES[nivel].punteria * 2;
+        var meta = { x: direccion > 0 ? W : 0, y: metaY };
+        var mx = meta.x - balon.x, my = meta.y - balon.y, md = Math.hypot(mx, my) || 1;
+        var fuerza = j.arquero ? 7.5 : 9;
+        balon.vx = mx / md * fuerza; balon.vy = my / md * fuerza + j.vy * 0.4;
+        j.enfriar = 18; patadas++; bip(330, 0.07);
+      } else {
+        // Conducción: el balón se empuja suave delante del jugador.
+        var n = d || 1;
+        balon.vx = dx / n * 2.6 + j.vx * 0.6; balon.vy = dy / n * 2.6 + j.vy * 0.6;
+      }
+    }
+    j.cargaPatada = 0;
+  }
+
+  function actualizar() {
+    if (estado !== "juego") return;
+    if (pausaGol > 0) { pausaGol--; return; }
+
+    tiempo -= 1 / 60;
+    if (tiempo <= 0) { tiempo = 0; actualizarReloj(); terminar(); return; }
+
+    moverHumano(rojo, "w", "s", "a", "d", " ");
+    if (modo === 2) moverHumano(azul, "arrowup", "arrowdown", "arrowleft", "arrowright", "enter");
+    else moverIA(azul);
+    moverArquero(arqR, "rojo"); moverArquero(arqA, "azul");
+    [rojo, azul].forEach(aplicar);
+
+    contacto(rojo, 1); contacto(arqR, 1); contacto(azul, -1); contacto(arqA, -1);
+
+    balon.x += balon.vx; balon.y += balon.vy;
+    balon.vx *= 0.985; balon.vy *= 0.985;
+
+    // Rebotes en bandas y líneas de fondo (fuera del arco)
+    if (balon.y < MARGEN + balon.r) { balon.y = MARGEN + balon.r; balon.vy = Math.abs(balon.vy); bip(160, 0.04); }
+    if (balon.y > H - MARGEN - balon.r) { balon.y = H - MARGEN - balon.r; balon.vy = -Math.abs(balon.vy); bip(160, 0.04); }
+    var enArco = balon.y > ARCO_Y && balon.y < ARCO_Y + ARCO_ALTO;
+    if (balon.x < MARGEN + balon.r) {
+      if (enArco && balon.x < MARGEN - 6) return gol("azul");
+      if (!enArco) { balon.x = MARGEN + balon.r; balon.vx = Math.abs(balon.vx); bip(160, 0.04); }
+    }
+    if (balon.x > W - MARGEN - balon.r) {
+      if (enArco && balon.x > W - MARGEN + 6) return gol("rojo");
+      if (!enArco) { balon.x = W - MARGEN - balon.r; balon.vx = -Math.abs(balon.vx); bip(160, 0.04); }
+    }
+    actualizarReloj();
+  }
+
+  function gol(quien) {
+    if (quien === "rojo") { golesR++; $("golesRojo").textContent = golesR; }
+    else { golesA++; $("golesAzul").textContent = golesA; }
+    [392, 523, 659, 523, 784].forEach(function (f, i) { setTimeout(function () { bip(f, 0.12, 0.06); }, i * 90); });
+    destello = 40; textoGol = quien === "rojo" ? "¡GOL ROJO!" : "¡GOL AZUL!";
+    if (golesR >= GOLES_MAX || golesA >= GOLES_MAX) { terminar(); return; }
+    saque(quien === "rojo" ? -1 : 1);
+  }
+
+  function actualizarReloj() {
+    var s = Math.ceil(tiempo);
+    $("reloj").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  }
+
+  /* ---------- Dibujo ---------- */
+  var destello = 0, textoGol = "";
+  function dibujarCancha() {
+    for (var i = 0; i < 10; i++) {
+      ctx.fillStyle = i % 2 ? "#2d7d32" : "#276f2c";
+      ctx.fillRect(i * W / 10, 0, W / 10, H);
+    }
+    ctx.strokeStyle = "#e8f0d8"; ctx.lineWidth = 4;
+    ctx.strokeRect(MARGEN, MARGEN, W - MARGEN * 2, H - MARGEN * 2);
+    ctx.beginPath(); ctx.moveTo(W / 2, MARGEN); ctx.lineTo(W / 2, H - MARGEN); ctx.stroke();
+    ctx.strokeRect(W / 2 - 50, H / 2 - 50, 100, 100); // círculo central "pixelado" (cuadrado, como en el Atari)
+    ctx.strokeRect(MARGEN, ARCO_Y - 50, 90, ARCO_ALTO + 100);
+    ctx.strokeRect(W - MARGEN - 90, ARCO_Y - 50, 90, ARCO_ALTO + 100);
+    // arcos
+    ctx.fillStyle = "#e8f0d8";
+    ctx.fillRect(MARGEN - 18, ARCO_Y - 4, 18, 4); ctx.fillRect(MARGEN - 18, ARCO_Y + ARCO_ALTO, 18, 4);
+    ctx.fillRect(MARGEN - 22, ARCO_Y - 4, 4, ARCO_ALTO + 8);
+    ctx.fillRect(W - MARGEN, ARCO_Y - 4, 18, 4); ctx.fillRect(W - MARGEN, ARCO_Y + ARCO_ALTO, 18, 4);
+    ctx.fillRect(W - MARGEN + 18, ARCO_Y - 4, 4, ARCO_ALTO + 8);
+  }
+  function dibujarJugador(j) {
+    ctx.fillStyle = "#000"; ctx.fillRect(j.x + 3, j.y + 3, TAM, TAM);          // sombra dura
+    ctx.fillStyle = j.color; ctx.fillRect(j.x, j.y, TAM, TAM);
+    ctx.fillStyle = j.arquero ? "#f2d24b" : "#f3f0e6";
+    ctx.fillRect(j.x + 6, j.y + 4, TAM - 12, 6);                                 // "cabeza" en bloque
+  }
+  function dibujar() {
+    ctx.setTransform(lienzo.width / W, 0, 0, lienzo.height / H, 0, 0);
+    dibujarCancha();
+    [arqR, arqA, rojo, azul].forEach(dibujarJugador);
+    ctx.fillStyle = "#000"; ctx.fillRect(balon.x - balon.r + 2, balon.y - balon.r + 2, balon.r * 2, balon.r * 2);
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(balon.x - balon.r, balon.y - balon.r, balon.r * 2, balon.r * 2);
+    if (destello > 0) {
+      destello--;
+      ctx.fillStyle = "rgba(242,210,75," + (destello / 80) + ")"; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "#000"; ctx.font = "bold 54px 'Courier New', monospace"; ctx.textAlign = "center";
+      ctx.fillText(textoGol, W / 2 + 4, H / 2 + 4);
+      ctx.fillStyle = "#f2d24b"; ctx.fillText(textoGol, W / 2, H / 2);
+    }
+  }
+
+  function ajustarResolucion() {
+    var r = lienzo.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    lienzo.width = Math.max(320, Math.round(r.width * dpr));
+    lienzo.height = Math.max(200, Math.round(r.height * dpr));
+    ctx.imageSmoothingEnabled = false;
+  }
+  addEventListener("resize", ajustarResolucion);
+  ajustarResolucion();
+
+  /* Bucle principal: física con paso fijo de 1/60 s (igual en pantallas
+     de 60 o 144 Hz) y dibujo sincronizado con requestAnimationFrame. */
+  var PASO = 1000 / 60, ultimo = 0, acumulado = 0;
+  function bucle(t) {
+    if (!ultimo) ultimo = t;
+    acumulado += Math.min(250, t - ultimo); ultimo = t;
+    while (acumulado >= PASO) { actualizar(); acumulado -= PASO; }
+    dibujar();
+    requestAnimationFrame(bucle);
+  }
+  requestAnimationFrame(bucle);
+})();
+</script>
+<script src="../js/marcadores.js"></script>
+</body>
+</html>

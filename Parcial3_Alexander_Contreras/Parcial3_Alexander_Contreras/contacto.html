@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto · Alexander Contreras — Ingeniería Multimedia</title>
+<meta name="description" content="Formulario de contacto accesible construido sobre la rejilla responsiva de doce columnas de Bootstrap, con validación nativa y etiquetas asociadas a cada control.">
+<meta name="author" content="Alexander Contreras Triviño">
+<meta name="theme-color" content="#06070a">
+<link rel="preload" href="img/camaleon.webp" as="image">
+<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+<link rel="icon" href="img/camaleon.webp" type="image/webp">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/tema.js"></script>
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+<div class="fondo-animado" aria-hidden="true">
+  <span class="mancha mancha-1"></span>
+  <span class="mancha mancha-2"></span>
+  <span class="mancha mancha-3"></span>
+</div>
+
+<header class="cinta franja">
+  <a class="marca" href="index.html">
+    <img class="marca-icono" src="img/camaleon.webp" alt="Logotipo: camaleón multicolor de Diseño Multimedia" width="48" height="30">
+    <span class="marca-texto">Alexander Contreras <span class="marca-subtitulo">Ingeniería Multimedia</span></span>
+  </a>
+  <div class="cinta-acciones">
+    <nav class="menu" aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Perfil</a></li>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="blog.html">Bitácora</a></li>
+        <li><a href="arcade.html">Arcade</a></li>
+        <li><a href="ar-experience.html">Realidad aumentada</a></li>
+        <li><a href="contacto.html" aria-current="page">Contacto</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="boton-tema" data-alternar-tema aria-pressed="false" aria-label="Cambiar a modo claro"><span class="boton-tema-icono" aria-hidden="true">☀</span><span class="boton-tema-texto">Claro</span></button>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <header class="cabecera-vista franja">
+    <h1>Contacto</h1>
+    <p class="medida">Escribe lo que necesitas resolver y te respondo con un diagnóstico inicial, un alcance y un rango de tiempo. Sin formularios de veinte campos.</p>
+  </header>
+
+  <section class="contacto franja">
+    <h2>Cuéntame de tu proyecto</h2>
+
+    <form class="formulario" action="#" method="post">
+
+      <p class="nota-formulario">Todos los campos son obligatorios salvo los marcados como opcionales. El navegador avisará si falta alguno.</p>
+
+      <fieldset>
+        <legend>Tus datos</legend>
+        <div class="row g-4">
+
+          <p class="col-12 col-md-6">
+            <label class="etiqueta-campo" for="nombre">Nombre</label>
+            <input class="campo" type="text" id="nombre" name="nombre" autocomplete="given-name" maxlength="60" required>
+          </p>
+
+          <p class="col-12 col-md-6">
+            <label class="etiqueta-campo" for="apellidos">Apellidos</label>
+            <input class="campo" type="text" id="apellidos" name="apellidos" autocomplete="family-name" maxlength="60" required>
+          </p>
+
+          <p class="col-12 col-md-7">
+            <label class="etiqueta-campo" for="correo">Correo electrónico</label>
+            <input class="campo" type="email" id="correo" name="correo" autocomplete="email" aria-describedby="ayuda-correo" required>
+            <small class="ayuda" id="ayuda-correo">Es la única vía por la que responderé. Revisa que esté bien escrito.</small>
+          </p>
+
+          <p class="col-12 col-md-5">
+            <label class="etiqueta-campo" for="telefono">Teléfono <span class="opcional">(opcional)</span></label>
+            <input class="campo" type="tel" id="telefono" name="telefono" autocomplete="tel" pattern="[0-9+()\s-]{7,20}" aria-describedby="ayuda-telefono">
+            <small class="ayuda" id="ayuda-telefono">Opcional. Formato: +57 323 838 7257.</small>
+          </p>
+
+          <p class="col-12">
+            <label class="etiqueta-campo" for="organizacion">Empresa u organización <span class="opcional">(opcional)</span></label>
+            <input class="campo" type="text" id="organizacion" name="organizacion" autocomplete="organization" maxlength="80">
+          </p>
+
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sobre el encargo</legend>
+        <div class="row g-4">
+
+          <p class="col-12 col-md-7">
+            <label class="etiqueta-campo" for="servicio">Tipo de trabajo</label>
+            <select class="campo" id="servicio" name="servicio" required>
+              <option value="">Elige una opción</option>
+              <option value="maquetacion">Maquetación de un diseño existente</option>
+              <option value="accesibilidad">Auditoría de accesibilidad WCAG</option>
+              <option value="rendimiento">Optimización de rendimiento</option>
+              <option value="responsivo">Corrección de vistas móviles</option>
+              <option value="otro">Otro asunto</option>
+            </select>
+          </p>
+
+          <p class="col-12 col-md-5">
+            <label class="etiqueta-campo" for="presupuesto">Presupuesto estimado <span class="opcional">(opcional)</span></label>
+            <select class="campo" id="presupuesto" name="presupuesto">
+              <option value="">Sin definir</option>
+              <option value="a">Menos de 1 millón COP</option>
+              <option value="b">Entre 1 y 3 millones COP</option>
+              <option value="c">Más de 3 millones COP</option>
+            </select>
+          </p>
+
+          <p class="col-12 col-md-5">
+            <label class="etiqueta-campo" for="plazo">Plazo deseado <span class="opcional">(opcional)</span></label>
+            <select class="campo" id="plazo" name="plazo">
+              <option value="">Sin definir</option>
+              <option value="urgente">Esta semana</option>
+              <option value="mes">Este mes</option>
+              <option value="trimestre">Próximos tres meses</option>
+            </select>
+          </p>
+
+          <p class="col-12 col-md-7">
+            <label class="etiqueta-campo" for="asunto">Asunto</label>
+            <input class="campo" type="text" id="asunto" name="asunto" maxlength="100" required>
+          </p>
+
+          <p class="col-12">
+            <label class="etiqueta-campo" for="mensaje">Mensaje</label>
+            <textarea class="campo" id="mensaje" name="mensaje" rows="6" minlength="30" maxlength="1200" aria-describedby="ayuda-mensaje" required></textarea>
+            <small class="ayuda" id="ayuda-mensaje">Describe el problema concreto y, si puedes, comparte la dirección del sitio. Entre 30 y 1200 caracteres.</small>
+          </p>
+
+          <p class="col-12">
+            <label class="consentimiento" for="consentimiento">
+              <input type="checkbox" id="consentimiento" name="consentimiento" value="si" required>
+              <span>Autorizo el tratamiento de mis datos personales con la única finalidad de responder esta solicitud, conforme a la Ley 1581 de 2012.</span>
+            </label>
+          </p>
+
+        </div>
+      </fieldset>
+
+      <p class="enviar">
+        <button class="boton" type="submit">Enviar mensaje</button>
+        <small class="ayuda">El navegador revisará los campos obligatorios antes de enviar.</small>
+      </p>
+
+    </form>
+
+    <aside class="aparte">
+      <h3>Otros canales</h3>
+
+      <h4>Correo</h4>
+      <p><a href="mailto:xandercontre@gmail.com">xandercontre@gmail.com</a></p>
+
+      <h4>Teléfono</h4>
+      <p><a href="tel:+573238387257">+57 323 838 7257</a></p>
+
+      <h4>Dónde estoy</h4>
+      <address>Cúcuta, Norte de Santander, Colombia. Trabajo en remoto para toda Colombia y España.</address>
+
+      <h4>Qué pasa después</h4>
+      <ul>
+        <li>Confirmo la recepción el mismo día hábil.</li>
+        <li>Reviso el sitio o los archivos que me compartas.</li>
+        <li>Te envío un diagnóstico con alcance y tiempo estimado.</li>
+        <li>Si encajamos, agendamos una llamada de treinta minutos.</li>
+      </ul>
+    </aside>
+
+  </section>
+
+</main>
+
+<footer class="pie franja">
+  <section>
+    <h2>Contacto directo</h2>
+    <address>
+      Cúcuta, Norte de Santander, Colombia<br>
+      <a href="mailto:xandercontre@gmail.com">xandercontre@gmail.com</a><br>
+      <a href="tel:+573238387257">+57 323 838 7257</a>
+    </address>
+  </section>
+  <section>
+    <h2>Recorrido del sitio</h2>
+    <ul>
+      <li><a href="index.html">Perfil profesional</a></li>
+      <li><a href="blog.html">Bitácora técnica</a></li>
+      <li><a href="arcade.html">Arcade 2D/3D</a></li>
+      <li><a href="ar-experience.html">Experiencia de realidad aumentada</a></li>
+      <li><a href="contacto.html">Formulario de contacto</a></li>
+    </ul>
+  </section>
+  <p class="pie-nota">Portafolio académico presentado para la asignatura Ingeniería WEB, Universidad Simón Bolívar. Código validado ante el W3C y probado con lector de pantalla.</p>
+</footer>
+
+<script src="js/marcadores.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
